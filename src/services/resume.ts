@@ -1,16 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { User, Experience, Education, Skill, Project, Certificate } from '../types';
-
-export interface ResumeData {
-  user: User;
-  experience: Experience[];
-  education: Education[];
-  skills: Skill[];
-  projects: Project[];
-  certificates: Certificate[];
-  summary?: string;
-}
+import { User, Experience, Education, Skill, Project, Certificate, ResumeData } from '../types';
 
 export interface ResumeTemplate {
   id: string;

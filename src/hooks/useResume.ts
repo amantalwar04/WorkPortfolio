@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { resumeService, ResumeData, ResumeTemplate } from '../services/resume';
+import { resumeService, ResumeTemplate } from '../services/resume';
+import { ResumeData } from '../types';
 import { showError, showSuccess, showLoading, dismissToast } from '../utils';
 
 export interface UseResumeReturn {

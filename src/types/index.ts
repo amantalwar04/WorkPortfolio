@@ -189,6 +189,16 @@ export interface ResumeField {
   placeholder?: string;
 }
 
+export interface ResumeData {
+  user: User;
+  experience: Experience[];
+  education: Education[];
+  skills: Skill[];
+  projects: Project[];
+  certificates: Certificate[];
+  summary: string;
+}
+
 export interface LinkedInProfile {
   id: string;
   firstName: string;
