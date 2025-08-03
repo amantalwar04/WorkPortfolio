@@ -167,10 +167,10 @@ const HomePage: React.FC = () => {
                     size="large"
                     onClick={() => {
                       try {
-                        navigate('/dashboard');
+                        navigate('/professional-builder');
                       } catch (error) {
                         console.error('Navigation error:', error);
-                        window.location.hash = '/dashboard';
+                        window.location.hash = '/professional-builder';
                       }
                     }}
                     sx={{
@@ -186,7 +186,7 @@ const HomePage: React.FC = () => {
                       transition: 'all 0.3s ease',
                     }}
                   >
-                    Get Started Free
+                    Create Professional Portfolio
                   </Button>
                   
                   <Button
@@ -194,10 +194,10 @@ const HomePage: React.FC = () => {
                     size="large"
                     onClick={() => {
                       try {
-                        navigate('/preview');
+                        navigate('/dashboard');
                       } catch (error) {
                         console.error('Navigation error:', error);
-                        window.location.hash = '/preview';
+                        window.location.hash = '/dashboard';
                       }
                     }}
                     sx={{
@@ -214,7 +214,7 @@ const HomePage: React.FC = () => {
                       transition: 'all 0.3s ease',
                     }}
                   >
-                    View Examples
+                    Explore Features
                   </Button>
                 </Box>
               </MotionBox>

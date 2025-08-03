@@ -253,3 +253,93 @@ export interface AppState {
   loading: boolean;
   error: string | null;
 }
+
+// Professional Portfolio Types
+export interface ProfessionalPortfolioData {
+  personalInfo: {
+    fullName: string;
+    title: string;
+    location: string;
+    email: string;
+    phone?: string;
+    linkedin?: string;
+    github?: string;
+    whatsapp?: string;
+    avatar?: string;
+    website?: string;
+  };
+  summary: string;
+  experience: EnhancedExperience[];
+  education: Education[];
+  skills: EnhancedSkill[];
+  projects: EnhancedProject[];
+  certifications: Certificate[];
+  languages: Language[];
+  theme: ProfessionalTheme;
+}
+
+// Enhanced interfaces for professional portfolios
+export interface EnhancedExperience extends Experience {
+  title: string; // alias for position
+  company: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  current: boolean;
+  description: string;
+  achievements: string[];
+}
+
+export interface EnhancedSkill {
+  id: string;
+  name: string;
+  category: string; // More flexible than enum
+  level: number; // 1-10 scale
+  years?: number;
+  certified?: boolean;
+}
+
+export interface EnhancedProject extends Project {
+  demoUrl?: string;
+  githubUrl?: string;
+  imageUrl?: string;
+  featured: boolean;
+  status: 'completed' | 'in-progress' | 'planned';
+}
+
+export interface Language {
+  id: string;
+  name: string;
+  proficiency: 'Beginner' | 'Intermediate' | 'Advanced' | 'Native' | 'Fluent';
+  level?: number;
+}
+
+export interface ProfessionalTheme {
+  primaryColor: string;
+  secondaryColor: string;
+  backgroundColor: string;
+  textColor: string;
+  accentColor: string;
+  fontFamily?: string;
+  template: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative';
+}
+
+// Portfolio Export Types
+export interface PortfolioExportOptions {
+  format: 'html' | 'pdf' | 'react';
+  template: 'professional' | 'modern' | 'classic';
+  includeAssets: boolean;
+  customCSS?: string;
+  filename?: string;
+}
+
+export interface ExportedPortfolio {
+  html: string;
+  css: string;
+  assets: { [key: string]: string };
+  metadata: {
+    generatedAt: string;
+    template: string;
+    version: string;
+  };
+}

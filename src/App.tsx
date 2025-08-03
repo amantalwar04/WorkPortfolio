@@ -12,6 +12,7 @@ import PortfolioBuilderPage from './pages/PortfolioBuilderPage';
 import ResumeGeneratorPage from './pages/ResumeGeneratorPage';
 import PortfolioPreviewPage from './pages/PortfolioPreviewPage';
 import SettingsPage from './pages/SettingsPage';
+import ProfessionalPortfolioBuilder from './components/portfolio/ProfessionalPortfolioBuilder';
 
 // Components
 import Navbar from './components/common/Navbar';
@@ -90,6 +91,7 @@ function App() {
                   <Route path="/dashboard" element={<SafeDashboardPage />} />
                   <Route path="/dashboard-old" element={<DashboardPage />} />
                   <Route path="/builder" element={<PortfolioBuilderPage />} />
+                  <Route path="/professional-builder" element={<ProfessionalPortfolioBuilder />} />
                   <Route path="/resume" element={<ResumeGeneratorPage />} />
                   <Route path="/preview" element={<PortfolioPreviewPage />} />
                   <Route path="/settings" element={<SettingsPage />} />

@@ -218,20 +218,29 @@ const SafeDashboardPage: React.FC = () => {
                     <Build sx={{ fontSize: 40, color: 'primary.main' }} />
                     <Box>
                       <Typography variant="h6" fontWeight="bold">
-                        Portfolio Builder
+                        Professional Portfolio
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Create and customize your portfolio with drag-and-drop sections
+                        Create a professional portfolio like industry leaders
                       </Typography>
                     </Box>
                   </Box>
-                  <Button 
-                    variant="contained" 
-                    fullWidth
-                    onClick={() => safeNavigate('/builder')}
-                  >
-                    Start Building
-                  </Button>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button 
+                      variant="contained" 
+                      onClick={() => safeNavigate('/professional-builder')}
+                      sx={{ flex: 1 }}
+                    >
+                      Professional
+                    </Button>
+                    <Button 
+                      variant="outlined" 
+                      onClick={() => safeNavigate('/builder')}
+                      sx={{ flex: 1 }}
+                    >
+                      Custom
+                    </Button>
+                  </Box>
                 </CardContent>
               </MotionCard>
             </Grid>
