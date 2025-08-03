@@ -8,6 +8,8 @@ import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import SafeDashboardPage from './pages/SafeDashboardPage';
+import UltraSafeDashboard from './pages/UltraSafeDashboard';
+import DebugDashboard from './pages/DebugDashboard';
 import PortfolioBuilderPage from './pages/PortfolioBuilderPage';
 import ResumeGeneratorPage from './pages/ResumeGeneratorPage';
 import PortfolioPreviewPage from './pages/PortfolioPreviewPage';
@@ -18,6 +20,7 @@ import ProfessionalPortfolioBuilder from './components/portfolio/ProfessionalPor
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import DashboardErrorBoundary from './components/common/DashboardErrorBoundary';
 import BrowserHistoryHandler from './components/common/BrowserHistoryHandler';
 
 // Theme configuration
@@ -90,7 +93,13 @@ function App() {
               <ErrorBoundary>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/dashboard" element={<SafeDashboardPage />} />
+                  <Route path="/dashboard" element={
+                    <DashboardErrorBoundary>
+                      <UltraSafeDashboard />
+                    </DashboardErrorBoundary>
+                  } />
+                  <Route path="/dashboard-debug" element={<DebugDashboard />} />
+                  <Route path="/dashboard-safe" element={<SafeDashboardPage />} />
                   <Route path="/dashboard-old" element={<DashboardPage />} />
                   <Route path="/builder" element={<PortfolioBuilderPage />} />
                   <Route path="/professional-builder" element={<ProfessionalPortfolioBuilder />} />
@@ -100,6 +109,8 @@ function App() {
                   {/* Portfolio public routes */}
                   <Route path="/portfolio/:username" element={<PortfolioPreviewPage />} />
                   <Route path="/portfolio/:username/:section" element={<PortfolioPreviewPage />} />
+                  {/* Catch-all fallback route */}
+                  <Route path="*" element={<DebugDashboard />} />
                 </Routes>
               </ErrorBoundary>
             </main>

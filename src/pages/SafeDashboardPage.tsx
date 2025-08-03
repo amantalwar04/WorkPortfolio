@@ -110,7 +110,7 @@ const SafeDashboardPage: React.FC = () => {
   }
 
   return (
-    <SafeWrapper name="DashboardPage">
+    <SafeWrapper name="SafeDashboardPage">
       <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Header */}
         <SafeWrapper name="DashboardHeader">
