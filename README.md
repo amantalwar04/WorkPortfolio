@@ -1,3 +1,4 @@
+
 # Portfolio Generator 🚀
 
 A comprehensive React TypeScript application that helps professionals create stunning portfolios and resumes with AI assistance, GitHub integration, and LinkedIn synchronization.
@@ -252,3 +253,4 @@ If you have any questions or need help:
 **Made with ❤️ by developers, for developers**
 
 *Help us build the future of professional portfolios!*
+
