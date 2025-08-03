@@ -190,12 +190,12 @@ export const useAppStore = create<AppStore>()(
   )
 );
 
-// Selectors for commonly used state combinations
+// Selectors for commonly used state combinations with safe defaults
 export const useUser = () => useAppStore(state => state.user);
 export const usePortfolio = () => useAppStore(state => state.portfolio);
-export const useRepositories = () => useAppStore(state => state.repositories);
+export const useRepositories = () => useAppStore(state => state.repositories || []);
 export const useLinkedInProfile = () => useAppStore(state => state.linkedinProfile);
-export const useLoading = () => useAppStore(state => state.loading);
+export const useLoading = () => useAppStore(state => state.loading || false);
 export const useError = () => useAppStore(state => state.error);
 
 // Action selectors

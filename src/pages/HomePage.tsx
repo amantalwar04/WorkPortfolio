@@ -165,7 +165,14 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="contained"
                     size="large"
-                    onClick={() => navigate('/dashboard')}
+                    onClick={() => {
+                      try {
+                        navigate('/dashboard');
+                      } catch (error) {
+                        console.error('Navigation error:', error);
+                        window.location.hash = '/dashboard';
+                      }
+                    }}
                     sx={{
                       bgcolor: 'white',
                       color: 'primary.main',
@@ -185,7 +192,14 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="outlined"
                     size="large"
-                    onClick={() => navigate('/preview')}
+                    onClick={() => {
+                      try {
+                        navigate('/preview');
+                      } catch (error) {
+                        console.error('Navigation error:', error);
+                        window.location.hash = '/preview';
+                      }
+                    }}
                     sx={{
                       borderColor: 'rgba(255, 255, 255, 0.5)',
                       color: 'white',

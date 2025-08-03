@@ -76,12 +76,15 @@ const DashboardPage: React.FC = () => {
   const { 
     setApiKey: setAIKey,
   } = useAI();
+
+  // Ensure repositories is always an array
+  const safeRepositories = repositories || [];
   
-  // Quick stats
+  // Quick stats with proper null checks
   const stats = {
     portfolioCompletion: portfolio ? 75 : 0,
-    totalProjects: repositories.length,
-    githubStars: repositories.reduce((sum, repo) => sum + repo.stargazers_count, 0),
+    totalProjects: safeRepositories.length,
+    githubStars: safeRepositories.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0),
     lastUpdated: portfolio?.updatedAt ? new Date(portfolio.updatedAt).toLocaleDateString() : null,
   };
   
@@ -467,7 +470,7 @@ const DashboardPage: React.FC = () => {
                 Recent Repositories
               </Typography>
               
-              {repositories.slice(0, 3).map((repo) => (
+                                      {safeRepositories.slice(0, 3).map((repo) => (
                 <Box key={repo.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1 }}>
                   <Box>
                     <Typography variant="body2" fontWeight="bold">
@@ -486,7 +489,7 @@ const DashboardPage: React.FC = () => {
                 </Box>
               ))}
               
-              {repositories.length === 0 && (
+                                      {safeRepositories.length === 0 && (
                 <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
                   No repositories found
                 </Typography>
