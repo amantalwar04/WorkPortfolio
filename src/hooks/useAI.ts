@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { aiService } from '../services/ai';
-import { AIAssistantRequest, AIAssistantResponse } from '../types';
+import { AIAssistantResponse } from '../types';
 import { showError, showSuccess, showLoading, dismissToast } from '../utils';
 
 export interface UseAIReturn {

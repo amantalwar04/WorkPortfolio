@@ -1,4 +1,4 @@
-import { AIAssistantRequest, AIAssistantResponse } from '../types';
+import { AIAssistantResponse } from '../types';
 
 class AIService {
   private apiKey: string | null = null;

@@ -79,21 +79,27 @@ function App() {
         <CssBaseline />
         <Router>
           <div className="App">
-            <Navbar />
+            <ErrorBoundary>
+              <Navbar />
+            </ErrorBoundary>
             <main>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/builder" element={<PortfolioBuilderPage />} />
-                <Route path="/resume" element={<ResumeGeneratorPage />} />
-                <Route path="/preview" element={<PortfolioPreviewPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                {/* Portfolio public routes */}
-                <Route path="/portfolio/:username" element={<PortfolioPreviewPage />} />
-                <Route path="/portfolio/:username/:section" element={<PortfolioPreviewPage />} />
-              </Routes>
+              <ErrorBoundary>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/builder" element={<PortfolioBuilderPage />} />
+                  <Route path="/resume" element={<ResumeGeneratorPage />} />
+                  <Route path="/preview" element={<PortfolioPreviewPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  {/* Portfolio public routes */}
+                  <Route path="/portfolio/:username" element={<PortfolioPreviewPage />} />
+                  <Route path="/portfolio/:username/:section" element={<PortfolioPreviewPage />} />
+                </Routes>
+              </ErrorBoundary>
             </main>
-            <Footer />
+            <ErrorBoundary>
+              <Footer />
+            </ErrorBoundary>
             
             {/* Toast notifications */}
             <Toaster

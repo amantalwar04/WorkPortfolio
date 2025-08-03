@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
   Typography,
-  Grid,
   Card,
   CardContent,
-  CardActions,
   Button,
   Paper,
   Avatar,
   Chip,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -33,8 +30,6 @@ import {
   Description,
   Visibility,
   Settings,
-  Add,
-  Link as LinkIcon,
   Star,
   TrendingUp,
   CheckCircle,
@@ -45,7 +40,7 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useUser, usePortfolio, useAppActions } from '../store';
+import { useUser, usePortfolio } from '../store';
 import { useGitHub } from '../hooks/useGitHub';
 import { useLinkedIn } from '../hooks/useLinkedIn';
 import { useAI } from '../hooks/useAI';
@@ -80,7 +75,6 @@ const DashboardPage: React.FC = () => {
   
   const { 
     setApiKey: setAIKey,
-    loading: aiLoading,
   } = useAI();
   
   // Quick stats

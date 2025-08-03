@@ -10,7 +10,6 @@ import {
   MenuItem,
   Avatar,
   Tooltip,
-  useMediaQuery,
   useTheme,
   Drawer,
   List,
@@ -38,7 +37,6 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   const user = useUser();
   
