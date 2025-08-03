@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { safeNavigate } from '../utils/navigation';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -165,14 +166,7 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="contained"
                     size="large"
-                    onClick={() => {
-                      try {
-                        navigate('/professional-builder');
-                      } catch (error) {
-                        console.error('Navigation error:', error);
-                        window.location.hash = '/professional-builder';
-                      }
-                    }}
+                    onClick={() => safeNavigate(navigate, '/professional-builder')}
                     sx={{
                       bgcolor: 'white',
                       color: 'primary.main',
@@ -192,14 +186,7 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="outlined"
                     size="large"
-                    onClick={() => {
-                      try {
-                        navigate('/dashboard');
-                      } catch (error) {
-                        console.error('Navigation error:', error);
-                        window.location.hash = '/dashboard';
-                      }
-                    }}
+                    onClick={() => safeNavigate(navigate, '/dashboard')}
                     sx={{
                       borderColor: 'rgba(255, 255, 255, 0.5)',
                       color: 'white',

@@ -18,6 +18,7 @@ import ProfessionalPortfolioBuilder from './components/portfolio/ProfessionalPor
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import BrowserHistoryHandler from './components/common/BrowserHistoryHandler';
 
 // Theme configuration
 const theme = createTheme({
@@ -79,11 +80,12 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
-          <div className="App">
-            <ErrorBoundary>
-              <Navbar />
-            </ErrorBoundary>
+            <Router>
+      <BrowserHistoryHandler />
+      <div className="App">
+        <ErrorBoundary>
+          <Navbar />
+        </ErrorBoundary>
             <main>
               <ErrorBoundary>
                 <Routes>

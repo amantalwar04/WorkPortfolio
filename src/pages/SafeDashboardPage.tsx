@@ -30,9 +30,13 @@ import { motion } from 'framer-motion';
 import SafeWrapper from '../components/common/SafeWrapper';
 import WhatsAppButton from '../components/common/WhatsAppButton';
 import DebugInfo from '../components/common/DebugInfo';
+import GitHubIntegration from '../components/integrations/GitHubIntegration';
+import LinkedInIntegration from '../components/integrations/LinkedInIntegration';
+import AIAssistantIntegration from '../components/integrations/AIAssistantIntegration';
 
 // Store with fallbacks
 import { useUser, usePortfolio, useRepositories, useError } from '../store';
+import { safeNavigate } from '../utils/navigation';
 
 const MotionCard = motion(Card);
 
@@ -40,6 +44,9 @@ const SafeDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [gitHubDialogOpen, setGitHubDialogOpen] = useState(false);
+  const [linkedInDialogOpen, setLinkedInDialogOpen] = useState(false);
+  const [aiDialogOpen, setAiDialogOpen] = useState(false);
 
   // Safe state access with fallbacks
   const user = useUser() || null;
@@ -53,14 +60,9 @@ const SafeDashboardPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Safe navigation
-  const safeNavigate = (path: string) => {
-    try {
-      navigate(path);
-    } catch (error) {
-      console.error('Navigation error:', error);
-      window.location.hash = path;
-    }
+  // Safe navigation wrapper
+  const handleNavigation = (path: string) => {
+    safeNavigate(navigate, path);
   };
 
   // Safe stats calculation
@@ -115,7 +117,7 @@ const SafeDashboardPage: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
             <Button
               startIcon={<ArrowBack />}
-              onClick={() => safeNavigate('/')}
+              onClick={() => handleNavigation('/')}
               variant="outlined"
             >
               Home
@@ -228,14 +230,14 @@ const SafeDashboardPage: React.FC = () => {
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button 
                       variant="contained" 
-                      onClick={() => safeNavigate('/professional-builder')}
+                      onClick={() => handleNavigation('/professional-builder')}
                       sx={{ flex: 1 }}
                     >
                       Professional
                     </Button>
                     <Button 
                       variant="outlined" 
-                      onClick={() => safeNavigate('/builder')}
+                      onClick={() => handleNavigation('/builder')}
                       sx={{ flex: 1 }}
                     >
                       Custom
@@ -262,7 +264,7 @@ const SafeDashboardPage: React.FC = () => {
                   <Button 
                     variant="contained" 
                     fullWidth
-                    onClick={() => safeNavigate('/resume')}
+                    onClick={() => handleNavigation('/resume')}
                     color="success"
                   >
                     Create Resume
@@ -306,7 +308,11 @@ const SafeDashboardPage: React.FC = () => {
                       </Box>
                     </Box>
                   </Box>
-                  <Button variant="outlined" size="small">
+                  <Button 
+                    variant="outlined" 
+                    size="small"
+                    onClick={() => setGitHubDialogOpen(true)}
+                  >
                     {user?.username ? 'Reconnect' : 'Connect'}
                   </Button>
                 </CardContent>
@@ -328,7 +334,11 @@ const SafeDashboardPage: React.FC = () => {
                       </Box>
                     </Box>
                   </Box>
-                  <Button variant="outlined" size="small">
+                  <Button 
+                    variant="outlined" 
+                    size="small"
+                    onClick={() => setLinkedInDialogOpen(true)}
+                  >
                     Connect
                   </Button>
                 </CardContent>
@@ -350,7 +360,11 @@ const SafeDashboardPage: React.FC = () => {
                       </Box>
                     </Box>
                   </Box>
-                  <Button variant="outlined" size="small">
+                  <Button 
+                    variant="outlined" 
+                    size="small"
+                    onClick={() => setAiDialogOpen(true)}
+                  >
                     Setup
                   </Button>
                 </CardContent>
@@ -364,7 +378,7 @@ const SafeDashboardPage: React.FC = () => {
           <Box sx={{ mt: 4, textAlign: 'center' }}>
             <Button
               startIcon={<Settings />}
-              onClick={() => safeNavigate('/settings')}
+              onClick={() => handleNavigation('/settings')}
               variant="outlined"
               size="large"
             >
@@ -397,6 +411,20 @@ const SafeDashboardPage: React.FC = () => {
           }}
           error={storeError || localError}
           show={true} // Always show for debugging
+        />
+
+        {/* Integration Dialogs */}
+        <GitHubIntegration 
+          open={gitHubDialogOpen} 
+          onClose={() => setGitHubDialogOpen(false)} 
+        />
+        <LinkedInIntegration 
+          open={linkedInDialogOpen} 
+          onClose={() => setLinkedInDialogOpen(false)} 
+        />
+        <AIAssistantIntegration 
+          open={aiDialogOpen} 
+          onClose={() => setAiDialogOpen(false)} 
         />
       </Container>
     </SafeWrapper>
