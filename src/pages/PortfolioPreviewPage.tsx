@@ -81,8 +81,8 @@ const PortfolioPreviewPage: React.FC = () => {
 
   const isOwner = !username || username === user?.username;
   const portfolioUrl = username 
-    ? `https://${username}.github.io/portfolio`
-    : `${window.location.origin}/portfolio/${user?.username}`;
+    ? `https://${username}.github.io/WorkPortfolio/#/portfolio/${username}`
+    : `${window.location.origin}${window.location.pathname}#/portfolio/${user?.username}`;
 
   useEffect(() => {
     if (username && username !== user?.username) {
