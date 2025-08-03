@@ -16,7 +16,7 @@ export interface UseGitHubReturn {
   fetchRepositories: (username?: string) => Promise<void>;
   fetchUserByUsername: (username: string) => Promise<void>;
   fetchRepoDetails: (owner: string, repo: string) => Promise<any>;
-  fetchUserStats: (username: string) => Promise<void>;
+  fetchUserStats: (username: string) => Promise<any>;
   clearError: () => void;
 }
 

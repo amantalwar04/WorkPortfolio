@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { linkedinService, LinkedInService } from '../services/linkedin';
+import { linkedinService } from '../services/linkedin';
+import LinkedInService from '../services/linkedin';
 import { useAppActions } from '../store';
 import { LinkedInProfile } from '../types';
 import { showError, showSuccess, showLoading, dismissToast } from '../utils';

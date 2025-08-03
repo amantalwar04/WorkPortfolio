@@ -60,9 +60,9 @@ const Footer: React.FC = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
           {/* Brand section */}
-          <Grid item xs={12} md={4}>
+          <Box sx={{ flex: { md: 1 }, mb: { xs: 3, md: 0 } }}>
             <Box sx={{ mb: 3 }}>
               <Typography
                 variant="h5"
@@ -106,12 +106,12 @@ const Footer: React.FC = () => {
                 ))}
               </Box>
             </Box>
-          </Grid>
+          </Box>
           
           {/* Links sections */}
-          <Grid item xs={12} md={8}>
-            <Grid container spacing={4}>
-              <Grid item xs={6} sm={4}>
+          <Box sx={{ flex: { md: 2 } }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 4 }}>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="h6" fontWeight="semibold" sx={{ mb: 2 }}>
                   Product
                 </Typography>
@@ -135,9 +135,9 @@ const Footer: React.FC = () => {
                     </Link>
                   ))}
                 </Box>
-              </Grid>
+              </Box>
               
-              <Grid item xs={6} sm={4}>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="h6" fontWeight="semibold" sx={{ mb: 2 }}>
                   Resources
                 </Typography>
@@ -161,9 +161,9 @@ const Footer: React.FC = () => {
                     </Link>
                   ))}
                 </Box>
-              </Grid>
+              </Box>
               
-              <Grid item xs={6} sm={4}>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="h6" fontWeight="semibold" sx={{ mb: 2 }}>
                   Company
                 </Typography>
@@ -187,10 +187,10 @@ const Footer: React.FC = () => {
                     </Link>
                   ))}
                 </Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
         
         <Divider sx={{ my: 4, bgcolor: 'grey.700' }} />
         

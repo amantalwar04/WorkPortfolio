@@ -306,95 +306,87 @@ const DashboardPage: React.FC = () => {
         </CardContent>
       </MotionCard>
       
-      <Grid container spacing={4}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
         {/* Quick Stats */}
-        <Grid item xs={12} md={8}>
-          <Grid container spacing={3}>
-            <Grid item xs={6} sm={3}>
-              <MotionCard
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                whileHover={{ y: -4 }}
-              >
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <TrendingUp sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {stats.portfolioCompletion}%
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Portfolio Complete
-                  </Typography>
-                </CardContent>
-              </MotionCard>
-            </Grid>
+        <Box sx={{ flex: { md: 2 } }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 3 }}>
+            <MotionCard
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ y: -4 }}
+            >
+              <CardContent sx={{ textAlign: 'center' }}>
+                <TrendingUp sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
+                <Typography variant="h4" fontWeight="bold">
+                  {stats.portfolioCompletion}%
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Portfolio Complete
+                </Typography>
+              </CardContent>
+            </MotionCard>
             
-            <Grid item xs={6} sm={3}>
-              <MotionCard
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                whileHover={{ y: -4 }}
-              >
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <Code sx={{ fontSize: 40, color: 'success.main', mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {stats.totalProjects}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Projects
-                  </Typography>
-                </CardContent>
-              </MotionCard>
-            </Grid>
+            <MotionCard
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ y: -4 }}
+            >
+              <CardContent sx={{ textAlign: 'center' }}>
+                <Code sx={{ fontSize: 40, color: 'success.main', mb: 1 }} />
+                <Typography variant="h4" fontWeight="bold">
+                  {stats.totalProjects}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Projects
+                </Typography>
+              </CardContent>
+            </MotionCard>
             
-            <Grid item xs={6} sm={3}>
-              <MotionCard
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                whileHover={{ y: -4 }}
-              >
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <Star sx={{ fontSize: 40, color: 'warning.main', mb: 1 }} />
-                  <Typography variant="h4" fontWeight="bold">
-                    {stats.githubStars}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    GitHub Stars
-                  </Typography>
-                </CardContent>
-              </MotionCard>
-            </Grid>
+            <MotionCard
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              whileHover={{ y: -4 }}
+            >
+              <CardContent sx={{ textAlign: 'center' }}>
+                <Star sx={{ fontSize: 40, color: 'warning.main', mb: 1 }} />
+                <Typography variant="h4" fontWeight="bold">
+                  {stats.githubStars}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  GitHub Stars
+                </Typography>
+              </CardContent>
+            </MotionCard>
             
-            <Grid item xs={6} sm={3}>
-              <MotionCard
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                whileHover={{ y: -4 }}
-              >
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <Person sx={{ fontSize: 40, color: 'info.main', mb: 1 }} />
-                  <Typography variant="h6" fontWeight="bold">
-                    {stats.lastUpdated || 'Never'}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Last Updated
-                  </Typography>
-                </CardContent>
-              </MotionCard>
-            </Grid>
-          </Grid>
+            <MotionCard
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              whileHover={{ y: -4 }}
+            >
+              <CardContent sx={{ textAlign: 'center' }}>
+                <Person sx={{ fontSize: 40, color: 'info.main', mb: 1 }} />
+                <Typography variant="h6" fontWeight="bold">
+                  {stats.lastUpdated || 'Never'}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Last Updated
+                </Typography>
+              </CardContent>
+            </MotionCard>
+          </Box>
           
           {/* Quick Actions */}
           <Box sx={{ mt: 4 }}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Quick Actions
             </Typography>
-            <Grid container spacing={2}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, gap: 2 }}>
               {quickActions.map((action, index) => (
-                <Grid item xs={12} sm={6} key={action.title}>
+                <Box key={action.title}>
                   <MotionCard
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -419,14 +411,14 @@ const DashboardPage: React.FC = () => {
                       </Box>
                     </CardContent>
                   </MotionCard>
-                </Grid>
+                </Box>
               ))}
-            </Grid>
+            </Box>
           </Box>
-        </Grid>
+        </Box>
         
         {/* Integration Status */}
-        <Grid item xs={12} md={4}>
+        <Box sx={{ flex: { md: 1 } }}>
           <MotionCard
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -507,8 +499,8 @@ const DashboardPage: React.FC = () => {
               )}
             </CardContent>
           </MotionCard>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
       
       {/* GitHub Token Dialog */}
       <Dialog open={githubTokenDialog} onClose={() => setGithubTokenDialog(false)} maxWidth="sm" fullWidth>
