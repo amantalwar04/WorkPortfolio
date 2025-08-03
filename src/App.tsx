@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 
 // Pages
 import HomePage from './pages/HomePage';
+import UltraHomePage from './pages/UltraHomePage';
 import DashboardPage from './pages/DashboardPage';
 import SafeDashboardPage from './pages/SafeDashboardPage';
 import UltraSafeDashboard from './pages/UltraSafeDashboard';
@@ -14,6 +15,9 @@ import PortfolioBuilderPage from './pages/PortfolioBuilderPage';
 import ResumeGeneratorPage from './pages/ResumeGeneratorPage';
 import PortfolioPreviewPage from './pages/PortfolioPreviewPage';
 import SettingsPage from './pages/SettingsPage';
+import UltraSettingsPage from './pages/UltraSettingsPage';
+import UltraPortfolioBuilderPage from './pages/UltraPortfolioBuilderPage';
+import UltraResumeGeneratorPage from './pages/UltraResumeGeneratorPage';
 import ProfessionalPortfolioBuilder from './components/portfolio/ProfessionalPortfolioBuilder';
 
 // Components
@@ -92,7 +96,12 @@ function App() {
             <main>
               <ErrorBoundary>
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={
+                    <ErrorBoundary>
+                      <UltraHomePage />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/home-old" element={<HomePage />} />
                   <Route path="/dashboard" element={
                     <DashboardErrorBoundary>
                       <UltraSafeDashboard />
@@ -101,11 +110,26 @@ function App() {
                   <Route path="/dashboard-debug" element={<DebugDashboard />} />
                   <Route path="/dashboard-safe" element={<SafeDashboardPage />} />
                   <Route path="/dashboard-old" element={<DashboardPage />} />
-                  <Route path="/builder" element={<PortfolioBuilderPage />} />
+                  <Route path="/builder" element={
+                    <ErrorBoundary>
+                      <UltraPortfolioBuilderPage />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/builder-old" element={<PortfolioBuilderPage />} />
                   <Route path="/professional-builder" element={<ProfessionalPortfolioBuilder />} />
-                  <Route path="/resume" element={<ResumeGeneratorPage />} />
+                  <Route path="/resume" element={
+                    <ErrorBoundary>
+                      <UltraResumeGeneratorPage />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/resume-old" element={<ResumeGeneratorPage />} />
                   <Route path="/preview" element={<PortfolioPreviewPage />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/settings" element={
+                    <ErrorBoundary>
+                      <UltraSettingsPage />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/settings-old" element={<SettingsPage />} />
                   {/* Portfolio public routes */}
                   <Route path="/portfolio/:username" element={<PortfolioPreviewPage />} />
                   <Route path="/portfolio/:username/:section" element={<PortfolioPreviewPage />} />
