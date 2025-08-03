@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 // Pages
 import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
+import SafeDashboardPage from './pages/SafeDashboardPage';
 import PortfolioBuilderPage from './pages/PortfolioBuilderPage';
 import ResumeGeneratorPage from './pages/ResumeGeneratorPage';
 import PortfolioPreviewPage from './pages/PortfolioPreviewPage';
@@ -86,7 +87,8 @@ function App() {
               <ErrorBoundary>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/dashboard" element={<SafeDashboardPage />} />
+                  <Route path="/dashboard-old" element={<DashboardPage />} />
                   <Route path="/builder" element={<PortfolioBuilderPage />} />
                   <Route path="/resume" element={<ResumeGeneratorPage />} />
                   <Route path="/preview" element={<PortfolioPreviewPage />} />

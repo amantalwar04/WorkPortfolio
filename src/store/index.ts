@@ -45,11 +45,14 @@ const initialState: AppState = {
   error: null,
 };
 
-export const useAppStore = create<AppStore>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        ...initialState,
+// Add error handling to store creation
+const createAppStore = () => {
+  try {
+    return create<AppStore>()(
+      devtools(
+        persist(
+          (set, get) => ({
+            ...initialState,
         
         // Basic setters
         setUser: (user) => set({ user }, false, 'setUser'),
@@ -189,31 +192,161 @@ export const useAppStore = create<AppStore>()(
     }
   )
 );
+  } catch (error) {
+    console.error('Store creation failed:', error);
+    // Return a basic store without persistence as fallback
+    return create<AppStore>()((set) => ({
+      ...initialState,
+      setUser: (user) => set({ user }),
+      setPortfolio: (portfolio) => set({ portfolio }),
+      setRepositories: (repositories) => set({ repositories }),
+      setLinkedInProfile: (linkedinProfile) => set({ linkedinProfile }),
+      setLoading: (loading) => set({ loading }),
+      setError: (error) => set({ error }),
+      updatePortfolioTheme: (theme) => set((state) => ({
+        portfolio: state.portfolio ? { ...state.portfolio, theme: { ...state.portfolio.theme, ...theme } } : null
+      })),
+      updatePortfolioSection: (sectionId, data) => set((state) => ({
+        portfolio: state.portfolio ? {
+          ...state.portfolio,
+          sections: state.portfolio.sections?.map(section => 
+            section.id === sectionId ? { ...section, data } : section
+          ) || []
+        } : null
+      })),
+      addPortfolioSection: (section) => set((state) => ({
+        portfolio: state.portfolio ? {
+          ...state.portfolio,
+          sections: [...(state.portfolio.sections || []), section]
+        } : null
+      })),
+      removePortfolioSection: (sectionId) => set((state) => ({
+        portfolio: state.portfolio ? {
+          ...state.portfolio,
+          sections: state.portfolio.sections?.filter(section => section.id !== sectionId) || []
+        } : null
+      })),
+      reorderPortfolioSections: (sections) => set((state) => ({
+        portfolio: state.portfolio ? { ...state.portfolio, sections } : null
+      })),
+      toggleSectionVisibility: (sectionId) => set((state) => ({
+        portfolio: state.portfolio ? {
+          ...state.portfolio,
+          sections: state.portfolio.sections?.map(section => 
+            section.id === sectionId ? { ...section, visible: !section.visible } : section
+          ) || []
+        } : null
+      })),
+      publishPortfolio: () => set((state) => ({
+        portfolio: state.portfolio ? { ...state.portfolio, published: true } : null
+      })),
+      updateUserProfile: (updates) => set((state) => ({
+        user: state.user ? { ...state.user, ...updates } : null
+      })),
+      clearAll: () => set(initialState),
+      clearError: () => set({ error: null }),
+    }));
+  }
+};
 
-// Selectors for commonly used state combinations with safe defaults
-export const useUser = () => useAppStore(state => state.user);
-export const usePortfolio = () => useAppStore(state => state.portfolio);
-export const useRepositories = () => useAppStore(state => state.repositories || []);
-export const useLinkedInProfile = () => useAppStore(state => state.linkedinProfile);
-export const useLoading = () => useAppStore(state => state.loading || false);
-export const useError = () => useAppStore(state => state.error);
+export const useAppStore = createAppStore();
 
-// Action selectors
-export const useAppActions = () => useAppStore(state => ({
-  setUser: state.setUser,
-  setPortfolio: state.setPortfolio,
-  setRepositories: state.setRepositories,
-  setLinkedInProfile: state.setLinkedInProfile,
-  setLoading: state.setLoading,
-  setError: state.setError,
-  updatePortfolioTheme: state.updatePortfolioTheme,
-  updatePortfolioSection: state.updatePortfolioSection,
-  addPortfolioSection: state.addPortfolioSection,
-  removePortfolioSection: state.removePortfolioSection,
-  reorderPortfolioSections: state.reorderPortfolioSections,
-  toggleSectionVisibility: state.toggleSectionVisibility,
-  publishPortfolio: state.publishPortfolio,
-  updateUserProfile: state.updateUserProfile,
-  clearAll: state.clearAll,
-  clearError: state.clearError,
-}));
+// Selectors for commonly used state combinations with safe defaults and error handling
+export const useUser = () => {
+  try {
+    return useAppStore(state => state.user);
+  } catch (error) {
+    console.error('useUser selector failed:', error);
+    return null;
+  }
+};
+
+export const usePortfolio = () => {
+  try {
+    return useAppStore(state => state.portfolio);
+  } catch (error) {
+    console.error('usePortfolio selector failed:', error);
+    return null;
+  }
+};
+
+export const useRepositories = () => {
+  try {
+    return useAppStore(state => state.repositories || []);
+  } catch (error) {
+    console.error('useRepositories selector failed:', error);
+    return [];
+  }
+};
+
+export const useLinkedInProfile = () => {
+  try {
+    return useAppStore(state => state.linkedinProfile);
+  } catch (error) {
+    console.error('useLinkedInProfile selector failed:', error);
+    return null;
+  }
+};
+
+export const useLoading = () => {
+  try {
+    return useAppStore(state => state.loading || false);
+  } catch (error) {
+    console.error('useLoading selector failed:', error);
+    return false;
+  }
+};
+
+export const useError = () => {
+  try {
+    return useAppStore(state => state.error);
+  } catch (error) {
+    console.error('useError selector failed:', error);
+    return null;
+  }
+};
+
+// Action selectors with error handling
+export const useAppActions = () => {
+  try {
+    return useAppStore(state => ({
+      setUser: state.setUser,
+      setPortfolio: state.setPortfolio,
+      setRepositories: state.setRepositories,
+      setLinkedInProfile: state.setLinkedInProfile,
+      setLoading: state.setLoading,
+      setError: state.setError,
+      updatePortfolioTheme: state.updatePortfolioTheme,
+      updatePortfolioSection: state.updatePortfolioSection,
+      addPortfolioSection: state.addPortfolioSection,
+      removePortfolioSection: state.removePortfolioSection,
+      reorderPortfolioSections: state.reorderPortfolioSections,
+      toggleSectionVisibility: state.toggleSectionVisibility,
+      publishPortfolio: state.publishPortfolio,
+      updateUserProfile: state.updateUserProfile,
+      clearAll: state.clearAll,
+      clearError: state.clearError,
+    }));
+  } catch (error) {
+    console.error('useAppActions selector failed:', error);
+    // Return no-op functions as fallback
+    return {
+      setUser: () => {},
+      setPortfolio: () => {},
+      setRepositories: () => {},
+      setLinkedInProfile: () => {},
+      setLoading: () => {},
+      setError: () => {},
+      updatePortfolioTheme: () => {},
+      updatePortfolioSection: () => {},
+      addPortfolioSection: () => {},
+      removePortfolioSection: () => {},
+      reorderPortfolioSections: () => {},
+      toggleSectionVisibility: () => {},
+      publishPortfolio: () => {},
+      updateUserProfile: () => {},
+      clearAll: () => {},
+      clearError: () => {},
+    };
+  }
+};
