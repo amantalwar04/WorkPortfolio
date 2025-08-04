@@ -26,6 +26,9 @@ import { useNavigate } from 'react-router-dom';
 
 // Ultra-safe imports with fallbacks
 import SafeWrapper from '../components/common/SafeWrapper';
+import WorkingGitHubIntegration from '../components/integrations/WorkingGitHubIntegration';
+import WorkingLinkedInIntegration from '../components/integrations/WorkingLinkedInIntegration';
+import WorkingAIAssistantIntegration from '../components/integrations/WorkingAIAssistantIntegration';
 
 /**
  * Ultra-Safe Dashboard with maximum error protection
@@ -462,6 +465,20 @@ const UltraSafeDashboard: React.FC = () => {
         {IntegrationsSection}
         {SettingsSection}
       </Container>
+      
+      {/* Working Integration Dialogs */}
+      <WorkingGitHubIntegration
+        open={integrationDialogs.github}
+        onClose={() => setIntegrationDialogs(prev => ({ ...prev, github: false }))}
+      />
+      <WorkingLinkedInIntegration
+        open={integrationDialogs.linkedin}
+        onClose={() => setIntegrationDialogs(prev => ({ ...prev, linkedin: false }))}
+      />
+      <WorkingAIAssistantIntegration
+        open={integrationDialogs.ai}
+        onClose={() => setIntegrationDialogs(prev => ({ ...prev, ai: false }))}
+      />
     </SafeWrapper>
   );
 };

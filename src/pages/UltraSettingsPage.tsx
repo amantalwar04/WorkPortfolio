@@ -57,6 +57,9 @@ import { useNavigate } from 'react-router-dom';
 // Safe imports
 import SafeWrapper from '../components/common/SafeWrapper';
 import { safeNavigate } from '../utils/navigation';
+import WorkingGitHubIntegration from '../components/integrations/WorkingGitHubIntegration';
+import WorkingLinkedInIntegration from '../components/integrations/WorkingLinkedInIntegration';
+import WorkingAIAssistantIntegration from '../components/integrations/WorkingAIAssistantIntegration';
 
 /**
  * Ultra-Safe Settings Page with comprehensive error protection
@@ -108,6 +111,11 @@ const UltraSettingsPage: React.FC = () => {
   // Dialog states
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const [exportDialog, setExportDialog] = useState<boolean>(false);
+  const [integrationDialogs, setIntegrationDialogs] = useState({
+    github: false,
+    linkedin: false,
+    ai: false,
+  });
 
   // Safe navigation handler
   const handleNavigation = useCallback((path: string) => {
@@ -123,6 +131,29 @@ const UltraSettingsPage: React.FC = () => {
       }));
     } catch (error) {
       console.error('Profile update error:', error);
+    }
+  }, []);
+
+  // Safe integration dialog handlers
+  const openIntegrationDialog = useCallback((type: 'github' | 'linkedin' | 'ai') => {
+    try {
+      setIntegrationDialogs(prev => ({
+        ...prev,
+        [type]: true,
+      }));
+    } catch (error) {
+      console.error('Error opening integration dialog:', error);
+    }
+  }, []);
+
+  const closeIntegrationDialog = useCallback((type: 'github' | 'linkedin' | 'ai') => {
+    try {
+      setIntegrationDialogs(prev => ({
+        ...prev,
+        [type]: false,
+      }));
+    } catch (error) {
+      console.error('Error closing integration dialog:', error);
     }
   }, []);
 
@@ -303,8 +334,12 @@ const UltraSettingsPage: React.FC = () => {
               />
             </CardContent>
             <CardActions>
-              <Button size="small" variant="outlined">
-                Test Connection
+              <Button 
+                size="small" 
+                variant="outlined"
+                onClick={() => openIntegrationDialog('github')}
+              >
+                Configure GitHub
               </Button>
             </CardActions>
           </Card>
@@ -338,8 +373,12 @@ const UltraSettingsPage: React.FC = () => {
               />
             </CardContent>
             <CardActions>
-              <Button size="small" variant="outlined" disabled>
-                Connect
+              <Button 
+                size="small" 
+                variant="outlined"
+                onClick={() => openIntegrationDialog('linkedin')}
+              >
+                Configure LinkedIn
               </Button>
             </CardActions>
           </Card>
@@ -386,8 +425,12 @@ const UltraSettingsPage: React.FC = () => {
               />
             </CardContent>
             <CardActions>
-              <Button size="small" variant="outlined">
-                Test API
+              <Button 
+                size="small" 
+                variant="outlined"
+                onClick={() => openIntegrationDialog('ai')}
+              >
+                Configure AI Assistant
               </Button>
             </CardActions>
           </Card>
@@ -774,6 +817,20 @@ const UltraSettingsPage: React.FC = () => {
           </DialogActions>
         </Dialog>
       </Container>
+      
+      {/* Working Integration Dialogs */}
+      <WorkingGitHubIntegration
+        open={integrationDialogs.github}
+        onClose={() => closeIntegrationDialog('github')}
+      />
+      <WorkingLinkedInIntegration
+        open={integrationDialogs.linkedin}
+        onClose={() => closeIntegrationDialog('linkedin')}
+      />
+      <WorkingAIAssistantIntegration
+        open={integrationDialogs.ai}
+        onClose={() => closeIntegrationDialog('ai')}
+      />
     </SafeWrapper>
   );
 };
