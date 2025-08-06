@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 // Safe imports
 import SafeWrapper from '../components/common/SafeWrapper';
 import { safeNavigate } from '../utils/navigation';
+import GettingStarted from '../components/getting-started/GettingStarted';
 
 /**
  * Ultra-Safe Home Page with bulletproof navigation
@@ -296,6 +297,11 @@ const UltraHomePage: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Hero Section */}
         {HeroSection}
+
+        {/* Getting Started Section */}
+        <Box sx={{ my: 6 }}>
+          <GettingStarted />
+        </Box>
 
         {/* Navigation Test (remove in production) */}
         {NavigationTestSection}

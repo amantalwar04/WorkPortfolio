@@ -321,13 +321,13 @@ export interface ProfessionalTheme {
   textColor: string;
   accentColor: string;
   fontFamily?: string;
-  template: 'modern' | 'classic' | 'minimal' | 'professional' | 'creative';
+  template: 'executive' | 'professional' | 'modern' | 'classic' | 'minimal';
 }
 
 // Portfolio Export Types
 export interface PortfolioExportOptions {
   format: 'html' | 'pdf' | 'react';
-  template: 'professional' | 'modern' | 'classic';
+  template: 'executive' | 'professional' | 'modern' | 'classic' | 'minimal';
   includeAssets: boolean;
   customCSS?: string;
   filename?: string;

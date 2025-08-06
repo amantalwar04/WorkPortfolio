@@ -101,6 +101,10 @@ const WorkingLinkedInIntegration: React.FC<WorkingLinkedInIntegrationProps> = ({
       // Save to localStorage
       localStorage.setItem('linkedin_profile_url', profileUrl);
       localStorage.setItem('linkedin_username', username);
+      localStorage.setItem('linkedin_connected', 'true');
+      
+      // Dispatch custom event for same-tab updates
+      window.dispatchEvent(new Event('localStorageChanged'));
       
     } catch (error) {
       setTestResult({

@@ -181,6 +181,9 @@ const WorkingAIAssistantIntegration: React.FC<WorkingAIAssistantIntegrationProps
         localStorage.setItem(`ai_api_key_${provider}`, btoa(apiKey)); // Basic encoding, use proper encryption in production
         localStorage.setItem('ai_connected', 'true');
         
+        // Dispatch custom event for same-tab updates
+        window.dispatchEvent(new Event('localStorageChanged'));
+        
       } else {
         const errorMessage = testData?.error?.message || testData?.message || 'API connection failed';
         setTestResult({

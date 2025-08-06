@@ -4,6 +4,10 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
 
+// Auth Context
+import AuthProvider from './contexts/AuthContext';
+import { ProfessionalDataProvider } from './contexts/ProfessionalDataContext';
+
 // Pages
 import HomePage from './pages/HomePage';
 import UltraHomePage from './pages/UltraHomePage';
@@ -19,6 +23,8 @@ import UltraSettingsPage from './pages/UltraSettingsPage';
 import UltraPortfolioBuilderPage from './pages/UltraPortfolioBuilderPage';
 import UltraResumeGeneratorPage from './pages/UltraResumeGeneratorPage';
 import ProfessionalPortfolioBuilder from './components/portfolio/ProfessionalPortfolioBuilder';
+import CompleteProfessionalBuilder from './components/portfolio/CompleteProfessionalBuilder';
+import LinkedInCallbackPage from './pages/LinkedInCallbackPage';
 
 // Components
 import Navbar from './components/common/Navbar';
@@ -85,17 +91,19 @@ const theme = createTheme({
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <AuthProvider>
+        <ProfessionalDataProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
             <Router>
-      <BrowserHistoryHandler />
-      <div className="App">
-        <ErrorBoundary>
-          <Navbar />
-        </ErrorBoundary>
-            <main>
+            <BrowserHistoryHandler />
+            <div className="App">
               <ErrorBoundary>
-                <Routes>
+                <Navbar />
+              </ErrorBoundary>
+              <main>
+                <ErrorBoundary>
+                  <Routes>
                   <Route path="/" element={
                     <ErrorBoundary>
                       <UltraHomePage />
@@ -116,7 +124,12 @@ function App() {
                     </ErrorBoundary>
                   } />
                   <Route path="/builder-old" element={<PortfolioBuilderPage />} />
-                  <Route path="/professional-builder" element={<ProfessionalPortfolioBuilder />} />
+                  <Route path="/professional-builder" element={
+                    <ErrorBoundary>
+                      <CompleteProfessionalBuilder />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/professional-builder-old" element={<ProfessionalPortfolioBuilder />} />
                   <Route path="/resume" element={
                     <ErrorBoundary>
                       <UltraResumeGeneratorPage />
@@ -130,6 +143,12 @@ function App() {
                     </ErrorBoundary>
                   } />
                   <Route path="/settings-old" element={<SettingsPage />} />
+                  {/* LinkedIn OAuth callback */}
+                  <Route path="/linkedin-callback" element={
+                    <ErrorBoundary>
+                      <LinkedInCallbackPage />
+                    </ErrorBoundary>
+                  } />
                   {/* Portfolio public routes */}
                   <Route path="/portfolio/:username" element={<PortfolioPreviewPage />} />
                   <Route path="/portfolio/:username/:section" element={<PortfolioPreviewPage />} />
@@ -166,8 +185,10 @@ function App() {
           </div>
         </Router>
       </ThemeProvider>
-    </ErrorBoundary>
-  );
+    </ProfessionalDataProvider>
+  </AuthProvider>
+</ErrorBoundary>
+);
 }
 
 export default App;

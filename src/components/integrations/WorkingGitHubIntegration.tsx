@@ -76,6 +76,11 @@ const WorkingGitHubIntegration: React.FC<WorkingGitHubIntegrationProps> = ({ ope
         // Save to localStorage for persistence
         localStorage.setItem('github_token', token);
         localStorage.setItem('github_user', JSON.stringify(userData));
+        localStorage.setItem('github_connected', 'true');
+        localStorage.setItem('github_connection_mode', 'token');
+        
+        // Dispatch custom event for same-tab updates
+        window.dispatchEvent(new Event('localStorageChanged'));
       } else {
         const errorData = await response.json();
         setTestResult({
@@ -121,6 +126,11 @@ const WorkingGitHubIntegration: React.FC<WorkingGitHubIntegrationProps> = ({ ope
         // Save to localStorage
         localStorage.setItem('github_username', username);
         localStorage.setItem('github_user', JSON.stringify(userData));
+        localStorage.setItem('github_connected', 'true');
+        localStorage.setItem('github_connection_mode', 'username');
+        
+        // Dispatch custom event for same-tab updates
+        window.dispatchEvent(new Event('localStorageChanged'));
       } else {
         setTestResult({
           success: false,

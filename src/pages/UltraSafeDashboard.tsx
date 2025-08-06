@@ -29,6 +29,7 @@ import SafeWrapper from '../components/common/SafeWrapper';
 import WorkingGitHubIntegration from '../components/integrations/WorkingGitHubIntegration';
 import WorkingLinkedInIntegration from '../components/integrations/WorkingLinkedInIntegration';
 import WorkingAIAssistantIntegration from '../components/integrations/WorkingAIAssistantIntegration';
+import useConnectionStatus from '../hooks/useConnectionStatus';
 
 /**
  * Ultra-Safe Dashboard with maximum error protection
@@ -45,6 +46,9 @@ const UltraSafeDashboard: React.FC = () => {
     linkedin: false,
     ai: false,
   });
+
+  // Connection status from localStorage
+  const { connectionStatus, loading: connectionsLoading, refreshConnections } = useConnectionStatus();
 
   // Safe user data with fallbacks
   const [userData, setUserData] = useState({
@@ -325,10 +329,21 @@ const UltraSafeDashboard: React.FC = () => {
                 <Box>
                   <Typography variant="h6">GitHub</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Warning sx={{ color: 'warning.main', fontSize: 16 }} />
-                    <Typography variant="body2" color="warning.main">
-                      Not Connected
-                    </Typography>
+                    {connectionStatus.github.connected ? (
+                      <>
+                        <CheckCircle sx={{ color: 'success.main', fontSize: 16 }} />
+                        <Typography variant="body2" color="success.main">
+                          Connected as @{connectionStatus.github.username}
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Warning sx={{ color: 'warning.main', fontSize: 16 }} />
+                        <Typography variant="body2" color="warning.main">
+                          Not Connected
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -337,7 +352,7 @@ const UltraSafeDashboard: React.FC = () => {
                 size="small"
                 onClick={() => openIntegrationDialog('github')}
               >
-                Connect
+                {connectionStatus.github.connected ? 'Reconnect' : 'Connect'}
               </Button>
             </CardContent>
           </Card>
@@ -351,10 +366,21 @@ const UltraSafeDashboard: React.FC = () => {
                 <Box>
                   <Typography variant="h6">LinkedIn</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Warning sx={{ color: 'warning.main', fontSize: 16 }} />
-                    <Typography variant="body2" color="warning.main">
-                      Coming Soon
-                    </Typography>
+                    {connectionStatus.linkedin.connected ? (
+                      <>
+                        <CheckCircle sx={{ color: 'success.main', fontSize: 16 }} />
+                        <Typography variant="body2" color="success.main">
+                          Connected ({connectionStatus.linkedin.username})
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Warning sx={{ color: 'warning.main', fontSize: 16 }} />
+                        <Typography variant="body2" color="warning.main">
+                          Not Connected
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -362,9 +388,8 @@ const UltraSafeDashboard: React.FC = () => {
                 variant="outlined" 
                 size="small"
                 onClick={() => openIntegrationDialog('linkedin')}
-                disabled
               >
-                Connect
+                {connectionStatus.linkedin.connected ? 'Reconnect' : 'Connect'}
               </Button>
             </CardContent>
           </Card>
@@ -378,10 +403,21 @@ const UltraSafeDashboard: React.FC = () => {
                 <Box>
                   <Typography variant="h6">AI Assistant</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Warning sx={{ color: 'warning.main', fontSize: 16 }} />
-                    <Typography variant="body2" color="warning.main">
-                      Not Configured
-                    </Typography>
+                    {connectionStatus.ai.connected ? (
+                      <>
+                        <CheckCircle sx={{ color: 'success.main', fontSize: 16 }} />
+                        <Typography variant="body2" color="success.main">
+                          Connected ({connectionStatus.ai.provider})
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Warning sx={{ color: 'warning.main', fontSize: 16 }} />
+                        <Typography variant="body2" color="warning.main">
+                          Not Configured
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -390,14 +426,14 @@ const UltraSafeDashboard: React.FC = () => {
                 size="small"
                 onClick={() => openIntegrationDialog('ai')}
               >
-                Setup
+                {connectionStatus.ai.connected ? 'Reconfigure' : 'Setup'}
               </Button>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
     </SafeWrapper>
-  ), [openIntegrationDialog]);
+  ), [openIntegrationDialog, connectionStatus]);
 
   const SettingsSection = useMemo(() => (
     <SafeWrapper name="UltraSafeSettings">

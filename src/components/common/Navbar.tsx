@@ -32,6 +32,8 @@ import {
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../../store';
+import { useAuth } from '../../contexts/AuthContext';
+import AuthDialog from '../auth/AuthDialog';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -39,8 +41,10 @@ const Navbar: React.FC = () => {
   const theme = useTheme();
   
   const user = useUser();
+  const { user: authUser, signOut, isAuthenticated } = useAuth();
   
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   
   const menuItems = [
@@ -66,12 +70,28 @@ const Navbar: React.FC = () => {
     handleUserMenuClose();
   };
   
-  const handleLogout = () => {
-    // Clear user data and redirect to home
-    localStorage.removeItem('github_token');
-    localStorage.removeItem('linkedin_token');
-    localStorage.removeItem('ai_api_key');
-    window.location.href = '/';
+  const handleLogout = async () => {
+    try {
+      // Sign out from auth service
+      await signOut();
+      
+      // Clear integration data
+      localStorage.removeItem('github_token');
+      localStorage.removeItem('github_connected');
+      localStorage.removeItem('linkedin_token');
+      localStorage.removeItem('linkedin_connected');
+      localStorage.removeItem('ai_api_key');
+      localStorage.removeItem('ai_connected');
+      localStorage.removeItem('portfolio_builder_data');
+      
+      // Close menu and redirect
+      handleUserMenuClose();
+      handleNavigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback - force logout
+      window.location.href = '/';
+    }
   };
   
   const isActive = (path: string) => {
@@ -257,43 +277,59 @@ const Navbar: React.FC = () => {
           
           {/* User section */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            {user ? (
+            {isAuthenticated && authUser ? (
               <>
                 <Tooltip title="Account settings">
                   <IconButton onClick={handleUserMenuOpen} sx={{ p: 0 }}>
                     <Avatar 
-                      src={user.avatar} 
+                      src={authUser.photoURL} 
                       sx={{ 
                         width: 40, 
                         height: 40,
                         border: '2px solid rgba(255, 255, 255, 0.3)',
                       }}
                     >
-                      {user.name.charAt(0)}
+                      {authUser.displayName?.charAt(0) || authUser.email?.charAt(0)}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
                 <Box sx={{ display: { xs: 'none', sm: 'block' }, ml: 1 }}>
                   <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                    Welcome, {user.name.split(' ')[0]}
+                    Welcome, {authUser.displayName?.split(' ')[0] || authUser.email?.split('@')[0]}
                   </Typography>
                 </Box>
               </>
             ) : (
-              <Button
-                color="inherit"
-                variant="outlined"
-                onClick={() => handleNavigate('/dashboard')}
-                sx={{
-                  borderColor: 'rgba(255, 255, 255, 0.5)',
-                  '&:hover': {
-                    borderColor: 'white',
-                    bgcolor: 'rgba(255, 255, 255, 0.1)',
-                  },
-                }}
-              >
-                Get Started
-              </Button>
+              <>
+                <Button
+                  color="inherit"
+                  variant="outlined"
+                  onClick={() => setAuthDialogOpen(true)}
+                  sx={{
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    '&:hover': {
+                      borderColor: 'white',
+                      bgcolor: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    mr: 1,
+                  }}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  color="inherit"
+                  variant="contained"
+                  onClick={() => handleNavigate('/dashboard')}
+                  sx={{
+                    bgcolor: 'rgba(255, 255, 255, 0.15)',
+                    '&:hover': {
+                      bgcolor: 'rgba(255, 255, 255, 0.25)',
+                    },
+                  }}
+                >
+                  Get Started
+                </Button>
+              </>
             )}
           </Box>
         </Toolbar>
@@ -303,7 +339,17 @@ const Navbar: React.FC = () => {
       {renderMobileDrawer()}
       
       {/* User menu */}
-      {user && renderUserMenu()}
+      {(user || (isAuthenticated && authUser)) && renderUserMenu()}
+      
+      {/* Auth Dialog */}
+      <AuthDialog
+        open={authDialogOpen}
+        onClose={() => setAuthDialogOpen(false)}
+        onSuccess={() => {
+          setAuthDialogOpen(false);
+          handleNavigate('/dashboard');
+        }}
+      />
     </>
   );
 };

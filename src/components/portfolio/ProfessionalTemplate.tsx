@@ -70,6 +70,8 @@ interface ProfessionalPortfolioProps {
       backgroundColor: string;
       textColor: string;
       accentColor: string;
+      fontFamily?: string;
+      template: 'executive' | 'professional' | 'modern' | 'classic' | 'minimal';
     };
   };
   preview?: boolean;
@@ -78,30 +80,123 @@ interface ProfessionalPortfolioProps {
 const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, preview = false }) => {
   const { personalInfo, summary, experience, education, skills, projects, certifications, languages, theme } = data;
 
-  const containerStyle = {
-    backgroundColor: theme.backgroundColor,
-    color: theme.textColor,
-    minHeight: '100vh',
-    fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+  // Template-specific styles
+  const getTemplateStyles = () => {
+    const baseStyles = {
+      containerStyle: {
+        backgroundColor: theme.backgroundColor,
+        color: theme.textColor,
+        minHeight: '100vh',
+        fontFamily: theme.fontFamily || "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      },
+      sectionStyle: {
+        py: 6,
+        borderBottom: `1px solid ${theme.primaryColor}20`,
+      },
+    };
+
+    switch (theme.template) {
+      case 'modern':
+        return {
+          ...baseStyles,
+          headerStyle: {
+            background: `linear-gradient(135deg, ${theme.primaryColor} 0%, ${theme.secondaryColor} 100%)`,
+            color: 'white',
+            py: 8,
+            position: 'relative',
+            overflow: 'hidden',
+            clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)',
+          },
+          cardStyle: {
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+            border: `2px solid ${theme.primaryColor}15`,
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: '0 12px 48px rgba(0,0,0,0.15)',
+            },
+          },
+        };
+
+      case 'classic':
+        return {
+          ...baseStyles,
+          headerStyle: {
+            backgroundColor: theme.primaryColor,
+            color: 'white',
+            py: 6,
+            position: 'relative',
+            borderBottom: `4px solid ${theme.secondaryColor}`,
+          },
+          cardStyle: {
+            borderRadius: 1,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            border: `1px solid ${theme.primaryColor}30`,
+          },
+        };
+
+      case 'minimal':
+        return {
+          ...baseStyles,
+          headerStyle: {
+            backgroundColor: 'transparent',
+            color: theme.textColor,
+            py: 4,
+            borderBottom: `2px solid ${theme.primaryColor}`,
+          },
+          cardStyle: {
+            borderRadius: 0,
+            boxShadow: 'none',
+            border: 'none',
+            borderLeft: `4px solid ${theme.primaryColor}`,
+            pl: 3,
+          },
+        };
+
+      case 'executive':
+        return {
+          ...baseStyles,
+          headerStyle: {
+            background: `conic-gradient(from 0deg, ${theme.primaryColor}, ${theme.secondaryColor}, ${theme.accentColor}, ${theme.primaryColor})`,
+            color: 'white',
+            py: 8,
+            position: 'relative',
+            borderRadius: '0 0 50% 50% / 0 0 20px 20px',
+          },
+          cardStyle: {
+            borderRadius: 4,
+            boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+            border: `3px solid transparent`,
+            background: `linear-gradient(white, white) padding-box, linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor}) border-box`,
+          },
+        };
+
+      default: // professional
+        return {
+          ...baseStyles,
+          headerStyle: {
+            background: `linear-gradient(135deg, ${theme.primaryColor} 0%, ${theme.secondaryColor} 100%)`,
+            color: 'white',
+            py: 6,
+            position: 'relative',
+            overflow: 'hidden',
+          },
+          cardStyle: {
+            borderRadius: 2,
+            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+            border: `1px solid ${theme.primaryColor}20`,
+          },
+        };
+    }
   };
 
-  const headerStyle = {
-    background: `linear-gradient(135deg, ${theme.primaryColor} 0%, ${theme.secondaryColor} 100%)`,
-    color: 'white',
-    py: 6,
-    position: 'relative',
-    overflow: 'hidden',
-  };
-
-  const sectionStyle = {
-    py: 6,
-    borderBottom: `1px solid ${theme.primaryColor}20`,
-  };
+  const styles = getTemplateStyles();
 
   return (
-    <Box sx={containerStyle}>
+    <Box sx={styles.containerStyle}>
       {/* Header Section */}
-      <Box sx={headerStyle}>
+      <Box sx={styles.headerStyle}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -150,7 +245,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
       </Box>
 
       {/* Summary Section */}
-      <Box sx={sectionStyle}>
+      <Box sx={styles.sectionStyle}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -177,7 +272,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
       </Box>
 
       {/* Experience Timeline */}
-      <Box sx={sectionStyle}>
+      <Box sx={styles.sectionStyle}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -226,7 +321,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
                       }}
                     />
                     
-                    <Card sx={{ ml: 3, boxShadow: 3 }}>
+                                            <Card sx={{ ...styles.cardStyle, ml: 3 }}>
                       <CardContent>
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
                           {exp.title}
@@ -266,7 +361,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
       </Box>
 
       {/* Skills Section */}
-      <Box sx={sectionStyle}>
+      <Box sx={styles.sectionStyle}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -285,7 +380,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
                 
                 return (
                   <Grid item xs={12} md={4} key={category}>
-                    <Card sx={{ height: '100%', boxShadow: 2 }}>
+                    <Card sx={{ ...styles.cardStyle, height: '100%' }}>
                       <CardContent>
                         <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ color: theme.primaryColor }}>
                           {category} Skills
@@ -315,7 +410,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
       </Box>
 
       {/* Education Section */}
-      <Box sx={sectionStyle}>
+      <Box sx={styles.sectionStyle}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -330,7 +425,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
             <Grid container spacing={3}>
               {education.map((edu) => (
                 <Grid item xs={12} md={6} key={edu.id}>
-                  <Card sx={{ height: '100%', boxShadow: 2 }}>
+                  <Card sx={{ ...styles.cardStyle, height: '100%' }}>
                     <CardContent>
                       <Typography variant="h6" fontWeight="bold" gutterBottom>
                         {edu.degree}
@@ -357,7 +452,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
 
       {/* Projects/Demos Section */}
       {projects.length > 0 && (
-        <Box sx={sectionStyle}>
+        <Box sx={styles.sectionStyle}>
           <Container maxWidth="lg">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -373,7 +468,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
                 {projects.map((project) => (
                   <Grid item xs={12} md={6} lg={4} key={project.id}>
                     <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
-                      <Card sx={{ height: '100%', boxShadow: 3 }}>
+                      <Card sx={{ ...styles.cardStyle, height: '100%' }}>
                         {project.imageUrl && (
                           <Box
                             component="img"
@@ -444,7 +539,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
       )}
 
       {/* Contact Section */}
-      <Box sx={{ ...sectionStyle, borderBottom: 'none' }}>
+              <Box sx={{ ...styles.sectionStyle, borderBottom: 'none' }}>
         <Container maxWidth="lg">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -460,7 +555,7 @@ const ProfessionalTemplate: React.FC<ProfessionalPortfolioProps> = ({ data, prev
               I'm always open to discussing new projects, creative ideas, or opportunities to be part of something exciting. Feel free to reach out.
             </Typography>
             
-            <Card sx={{ maxWidth: 600, boxShadow: 3 }}>
+            <Card sx={{ ...styles.cardStyle, maxWidth: 600 }}>
               <CardContent>
                 <Grid container spacing={2}>
                   {personalInfo.email && (
