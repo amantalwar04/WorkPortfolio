@@ -50,7 +50,7 @@ const LinkedInCallbackPage: React.FC = () => {
           } else {
             // Redirect to portfolio builder if not in popup
             setTimeout(() => {
-              navigate('/professional-builder');
+              navigate('/builder');
             }, 2000);
           }
         } else {

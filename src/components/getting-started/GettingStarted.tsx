@@ -193,7 +193,7 @@ const GettingStarted: React.FC<GettingStartedProps> = ({ onDataReady }) => {
   function handleStartFromScratch() {
     resetData();
     setActiveStep(1);
-    navigate('/professional-builder');
+            navigate('/builder');
   }
 
   const handleFileSelect = useCallback(async (file: File) => {
@@ -291,7 +291,7 @@ const GettingStarted: React.FC<GettingStartedProps> = ({ onDataReady }) => {
               <Button
                 variant="contained"
                 startIcon={<Work />}
-                onClick={() => navigate('/professional-builder')}
+                onClick={() => navigate('/builder')}
                 sx={{ bgcolor: 'success.dark' }}
               >
                 Build Portfolio

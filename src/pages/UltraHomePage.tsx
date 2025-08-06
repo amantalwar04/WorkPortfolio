@@ -74,7 +74,7 @@ const UltraHomePage: React.FC = () => {
             variant="contained"
             size="large"
             startIcon={<Build />}
-            onClick={() => handleNavigation('/professional-builder')}
+            onClick={() => handleNavigation('/builder')}
             sx={{ 
               bgcolor: 'white', 
               color: 'primary.main',

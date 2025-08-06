@@ -279,7 +279,7 @@ const UltraSafeDashboard: React.FC = () => {
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button 
                   variant="contained" 
-                  onClick={() => safeNavigate('/professional-builder')}
+                  onClick={() => safeNavigate('/builder')}
                   sx={{ flex: 1 }}
                 >
                   Professional

@@ -120,10 +120,11 @@ function App() {
                   <Route path="/dashboard-old" element={<DashboardPage />} />
                   <Route path="/builder" element={
                     <ErrorBoundary>
-                      <UltraPortfolioBuilderPage />
+                      <CompleteProfessionalBuilder />
                     </ErrorBoundary>
                   } />
                   <Route path="/builder-old" element={<PortfolioBuilderPage />} />
+                  <Route path="/builder-ultra" element={<UltraPortfolioBuilderPage />} />
                   <Route path="/professional-builder" element={
                     <ErrorBoundary>
                       <CompleteProfessionalBuilder />

@@ -255,7 +255,7 @@ const UltraPortfolioBuilderPage: React.FC = () => {
         
         <Button
           variant="contained"
-          onClick={() => handleNavigation('/professional-builder')}
+                            onClick={() => handleNavigation('/builder')}
         >
           Professional Builder
         </Button>

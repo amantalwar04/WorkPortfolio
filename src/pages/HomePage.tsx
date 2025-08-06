@@ -176,7 +176,7 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="contained"
                     size="large"
-                    onClick={() => safeNavigate(navigate, '/professional-builder')}
+                    onClick={() => safeNavigate(navigate, '/builder')}
                     sx={{
                       bgcolor: 'white',
                       color: 'primary.main',

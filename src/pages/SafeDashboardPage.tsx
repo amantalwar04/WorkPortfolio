@@ -230,7 +230,7 @@ const SafeDashboardPage: React.FC = () => {
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button 
                       variant="contained" 
-                      onClick={() => handleNavigation('/professional-builder')}
+                      onClick={() => handleNavigation('/builder')}
                       sx={{ flex: 1 }}
                     >
                       Professional

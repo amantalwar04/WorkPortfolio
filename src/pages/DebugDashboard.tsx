@@ -133,7 +133,7 @@ const DebugDashboard: React.FC = () => {
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 3 }}>
             <Button
               variant="contained"
-              onClick={() => { window.location.hash = '/professional-builder'; }}
+              onClick={() => { window.location.hash = '/builder'; }}
             >
               Professional Portfolio
             </Button>
