@@ -237,14 +237,16 @@ export const LinkedInImport: React.FC<LinkedInImportProps> = ({
             
             <Alert severity="info" sx={{ mb: 2 }}>
               <Typography variant="body2">
-                <strong>Quick Setup Instructions:</strong>
+                <strong>LinkedIn Developer Setup Steps:</strong>
               </Typography>
               <Box component="ol" sx={{ mt: 1, pl: 2 }}>
-                <li>Visit <a href="https://www.linkedin.com/developers/apps" target="_blank" rel="noopener noreferrer">LinkedIn Developers</a></li>
-                <li>Create a new app with your company details</li>
-                <li>Add redirect URL: <code>{window.location.origin}/linkedin-callback</code></li>
-                <li>Copy your Client ID and configure environment variables</li>
-                <li>Request "Sign In with LinkedIn" product access</li>
+                <li>Visit <a href="https://www.linkedin.com/developers/apps" target="_blank" rel="noopener noreferrer">LinkedIn Developers Console</a></li>
+                <li>Create a new app (or use existing) with your company details</li>
+                <li><strong>Add redirect URL</strong>: <code>{window.location.origin}/#/linkedin-callback</code></li>
+                <li><strong>Copy Client ID & Secret</strong> from the Auth tab</li>
+                <li><strong>Request "Sign In with LinkedIn" access</strong> in Products tab</li>
+                <li><strong>Configure environment variables</strong> with your credentials</li>
+                <li><strong>Wait for LinkedIn approval</strong> (1-2 business days)</li>
               </Box>
             </Alert>
 
