@@ -7,6 +7,10 @@ interface User {
   displayName: string;
   photoURL?: string;
   createdAt: string;
+  firstName?: string;
+  lastName?: string;
+  locale?: string;
+  verified?: boolean;
 }
 
 interface AuthContextType {

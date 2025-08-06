@@ -177,11 +177,11 @@ const GettingStarted: React.FC<GettingStartedProps> = ({ onDataReady }) => {
         }
       ],
       skills: [
-        { id: 'skill-1', name: 'JavaScript', level: 'Expert', category: 'Programming', years: 8, certified: false },
-        { id: 'skill-2', name: 'React', level: 'Expert', category: 'Frontend', years: 6, certified: false },
-        { id: 'skill-3', name: 'Node.js', level: 'Advanced', category: 'Backend', years: 5, certified: false },
-        { id: 'skill-4', name: 'AWS', level: 'Advanced', category: 'Cloud', years: 4, certified: true },
-        { id: 'skill-5', name: 'PostgreSQL', level: 'Intermediate', category: 'Database', years: 3, certified: false },
+        { id: 'skill-1', name: 'JavaScript', level: 9, category: 'Programming', years: 8, certified: false },
+        { id: 'skill-2', name: 'React', level: 9, category: 'Frontend', years: 6, certified: false },
+        { id: 'skill-3', name: 'Node.js', level: 8, category: 'Backend', years: 5, certified: false },
+        { id: 'skill-4', name: 'AWS', level: 8, category: 'Cloud', years: 4, certified: true },
+        { id: 'skill-5', name: 'PostgreSQL', level: 6, category: 'Database', years: 3, certified: false },
       ]
     };
 

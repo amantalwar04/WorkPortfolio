@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { ProfessionalPortfolioData, Experience, Education, Skill, Project, Certificate, Language } from '../types';
+import { ProfessionalPortfolioData, Experience, Education, Skill, Project, Certificate, Language, EnhancedExperience, EnhancedSkill, EnhancedProject } from '../types';
 import DocumentParserService, { DocumentParseResult } from '../services/documentParser';
 
 // Initial state
@@ -43,21 +43,21 @@ const initialData: ProfessionalPortfolioData = {
 type DataAction =
   | { type: 'SET_PERSONAL_INFO'; payload: Partial<ProfessionalPortfolioData['personalInfo']> }
   | { type: 'SET_SUMMARY'; payload: string }
-  | { type: 'SET_EXPERIENCE'; payload: Experience[] }
-  | { type: 'ADD_EXPERIENCE'; payload: Experience }
-  | { type: 'UPDATE_EXPERIENCE'; payload: { id: string; data: Partial<Experience> } }
+  | { type: 'SET_EXPERIENCE'; payload: EnhancedExperience[] }
+  | { type: 'ADD_EXPERIENCE'; payload: EnhancedExperience }
+  | { type: 'UPDATE_EXPERIENCE'; payload: { id: string; data: Partial<EnhancedExperience> } }
   | { type: 'DELETE_EXPERIENCE'; payload: string }
   | { type: 'SET_EDUCATION'; payload: Education[] }
   | { type: 'ADD_EDUCATION'; payload: Education }
   | { type: 'UPDATE_EDUCATION'; payload: { id: string; data: Partial<Education> } }
   | { type: 'DELETE_EDUCATION'; payload: string }
-  | { type: 'SET_SKILLS'; payload: Skill[] }
-  | { type: 'ADD_SKILL'; payload: Skill }
-  | { type: 'UPDATE_SKILL'; payload: { id: string; data: Partial<Skill> } }
+  | { type: 'SET_SKILLS'; payload: EnhancedSkill[] }
+  | { type: 'ADD_SKILL'; payload: EnhancedSkill }
+  | { type: 'UPDATE_SKILL'; payload: { id: string; data: Partial<EnhancedSkill> } }
   | { type: 'DELETE_SKILL'; payload: string }
-  | { type: 'SET_PROJECTS'; payload: Project[] }
-  | { type: 'ADD_PROJECT'; payload: Project }
-  | { type: 'UPDATE_PROJECT'; payload: { id: string; data: Partial<Project> } }
+  | { type: 'SET_PROJECTS'; payload: EnhancedProject[] }
+  | { type: 'ADD_PROJECT'; payload: EnhancedProject }
+  | { type: 'UPDATE_PROJECT'; payload: { id: string; data: Partial<EnhancedProject> } }
   | { type: 'DELETE_PROJECT'; payload: string }
   | { type: 'SET_CERTIFICATIONS'; payload: Certificate[] }
   | { type: 'ADD_CERTIFICATION'; payload: Certificate }
@@ -235,10 +235,10 @@ interface ProfessionalDataContextType {
   setSummary: (summary: string) => void;
   
   // Experience actions
-  addExperience: (experience: Experience) => void;
-  updateExperience: (id: string, updates: Partial<Experience>) => void;
+  addExperience: (experience: EnhancedExperience) => void;
+  updateExperience: (id: string, updates: Partial<EnhancedExperience>) => void;
   deleteExperience: (id: string) => void;
-  setExperience: (experience: Experience[]) => void;
+  setExperience: (experience: EnhancedExperience[]) => void;
   
   // Education actions
   addEducation: (education: Education) => void;
@@ -247,16 +247,16 @@ interface ProfessionalDataContextType {
   setEducation: (education: Education[]) => void;
   
   // Skills actions
-  addSkill: (skill: Skill) => void;
-  updateSkill: (id: string, updates: Partial<Skill>) => void;
+  addSkill: (skill: EnhancedSkill) => void;
+  updateSkill: (id: string, updates: Partial<EnhancedSkill>) => void;
   deleteSkill: (id: string) => void;
-  setSkills: (skills: Skill[]) => void;
+  setSkills: (skills: EnhancedSkill[]) => void;
   
   // Projects actions
-  addProject: (project: Project) => void;
-  updateProject: (id: string, updates: Partial<Project>) => void;
+  addProject: (project: EnhancedProject) => void;
+  updateProject: (id: string, updates: Partial<EnhancedProject>) => void;
   deleteProject: (id: string) => void;
-  setProjects: (projects: Project[]) => void;
+  setProjects: (projects: EnhancedProject[]) => void;
   
   // Certifications actions
   addCertification: (certification: Certificate) => void;
@@ -325,11 +325,11 @@ export const ProfessionalDataProvider: React.FC<ProfessionalDataProviderProps> =
   };
 
   // Experience actions
-  const addExperience = (experience: Experience) => {
+  const addExperience = (experience: EnhancedExperience) => {
     dispatch({ type: 'ADD_EXPERIENCE', payload: experience });
   };
 
-  const updateExperience = (id: string, updates: Partial<Experience>) => {
+  const updateExperience = (id: string, updates: Partial<EnhancedExperience>) => {
     dispatch({ type: 'UPDATE_EXPERIENCE', payload: { id, data: updates } });
   };
 
@@ -337,7 +337,7 @@ export const ProfessionalDataProvider: React.FC<ProfessionalDataProviderProps> =
     dispatch({ type: 'DELETE_EXPERIENCE', payload: id });
   };
 
-  const setExperience = (experience: Experience[]) => {
+  const setExperience = (experience: EnhancedExperience[]) => {
     dispatch({ type: 'SET_EXPERIENCE', payload: experience });
   };
 
@@ -359,11 +359,11 @@ export const ProfessionalDataProvider: React.FC<ProfessionalDataProviderProps> =
   };
 
   // Skills actions
-  const addSkill = (skill: Skill) => {
+  const addSkill = (skill: EnhancedSkill) => {
     dispatch({ type: 'ADD_SKILL', payload: skill });
   };
 
-  const updateSkill = (id: string, updates: Partial<Skill>) => {
+  const updateSkill = (id: string, updates: Partial<EnhancedSkill>) => {
     dispatch({ type: 'UPDATE_SKILL', payload: { id, data: updates } });
   };
 
@@ -371,16 +371,16 @@ export const ProfessionalDataProvider: React.FC<ProfessionalDataProviderProps> =
     dispatch({ type: 'DELETE_SKILL', payload: id });
   };
 
-  const setSkills = (skills: Skill[]) => {
+  const setSkills = (skills: EnhancedSkill[]) => {
     dispatch({ type: 'SET_SKILLS', payload: skills });
   };
 
   // Projects actions
-  const addProject = (project: Project) => {
+  const addProject = (project: EnhancedProject) => {
     dispatch({ type: 'ADD_PROJECT', payload: project });
   };
 
-  const updateProject = (id: string, updates: Partial<Project>) => {
+  const updateProject = (id: string, updates: Partial<EnhancedProject>) => {
     dispatch({ type: 'UPDATE_PROJECT', payload: { id, data: updates } });
   };
 
@@ -388,7 +388,7 @@ export const ProfessionalDataProvider: React.FC<ProfessionalDataProviderProps> =
     dispatch({ type: 'DELETE_PROJECT', payload: id });
   };
 
-  const setProjects = (projects: Project[]) => {
+  const setProjects = (projects: EnhancedProject[]) => {
     dispatch({ type: 'SET_PROJECTS', payload: projects });
   };
 

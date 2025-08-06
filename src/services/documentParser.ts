@@ -156,8 +156,19 @@ export class DocumentParserService {
 
     // Extract personal information
     const personalInfo = this.extractPersonalInfo(text, sections);
-    if (personalInfo) {
-      extractedData.personalInfo = personalInfo;
+    if (personalInfo && Object.keys(personalInfo).length > 0) {
+      extractedData.personalInfo = {
+        fullName: personalInfo.fullName || '',
+        title: personalInfo.title || '',
+        location: personalInfo.location || '',
+        email: personalInfo.email || '',
+        phone: personalInfo.phone,
+        linkedin: personalInfo.linkedin,
+        github: personalInfo.github,
+        whatsapp: personalInfo.whatsapp,
+        avatar: personalInfo.avatar,
+        website: personalInfo.website,
+      };
     }
 
     // Extract summary
@@ -337,7 +348,7 @@ export class DocumentParserService {
     if (!experienceSection) return [];
 
     const content = experienceSection.content;
-    const dateMatches = [...content.matchAll(this.DATE_REGEX)];
+    const dateMatches = Array.from(content.matchAll(this.DATE_REGEX));
     
     // Simple extraction - in production, this would be more sophisticated
     const experiences: any[] = [];
