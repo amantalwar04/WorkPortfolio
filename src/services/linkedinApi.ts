@@ -109,7 +109,7 @@ export class LinkedInApiService {
   private static readonly CLIENT_ID = process.env.REACT_APP_LINKEDIN_CLIENT_ID || '';
   private static readonly CLIENT_SECRET = process.env.REACT_APP_LINKEDIN_CLIENT_SECRET || '';
   private static readonly REDIRECT_URI = process.env.REACT_APP_LINKEDIN_REDIRECT_URI || 
-    `${window.location.origin}/linkedin-callback`;
+    `${window.location.origin}/WorkPortfolio/linkedin-callback`;
   private static readonly SCOPE = 'r_liteprofile r_emailaddress r_member_social';
   private static readonly API_BASE = 'https://api.linkedin.com/v2';
 

@@ -242,7 +242,7 @@ export const LinkedInImport: React.FC<LinkedInImportProps> = ({
               <Box component="ol" sx={{ mt: 1, pl: 2 }}>
                 <li>Visit <a href="https://www.linkedin.com/developers/apps" target="_blank" rel="noopener noreferrer">LinkedIn Developers Console</a></li>
                 <li>Create a new app (or use existing) with your company details</li>
-                <li><strong>Add redirect URL</strong>: <code>{window.location.origin}/#/linkedin-callback</code></li>
+                <li><strong>Add redirect URL</strong>: <code>{window.location.origin}/WorkPortfolio/linkedin-callback</code></li>
                 <li><strong>Copy Client ID & Secret</strong> from the Auth tab</li>
                 <li><strong>Request "Sign In with LinkedIn" access</strong> in Products tab</li>
                 <li><strong>Configure environment variables</strong> with your credentials</li>
