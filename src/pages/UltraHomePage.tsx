@@ -27,17 +27,30 @@ import { useNavigate } from 'react-router-dom';
 import SafeWrapper from '../components/common/SafeWrapper';
 import { safeNavigate } from '../utils/navigation';
 import GettingStarted from '../components/getting-started/GettingStarted';
+import { useAuth } from '../contexts/AuthContext';
 
 /**
  * Ultra-Safe Home Page with bulletproof navigation
  */
 const UltraHomePage: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   // Safe navigation handler
   const handleNavigation = useCallback((path: string) => {
     safeNavigate(navigate, path);
   }, [navigate]);
+
+  // Handle Get Started with authentication check
+  const handleGetStarted = useCallback(() => {
+    if (isAuthenticated) {
+      // If authenticated, go to getting started page
+      handleNavigation('/dashboard');
+    } else {
+      // If not authenticated, go to dashboard which will show auth dialog
+      handleNavigation('/dashboard');
+    }
+  }, [isAuthenticated, handleNavigation]);
 
   // Hero Section
   const HeroSection = useMemo(() => (
@@ -231,7 +244,7 @@ const UltraHomePage: React.FC = () => {
             variant="contained"
             size="large"
             startIcon={<Build />}
-            onClick={() => handleNavigation('/dashboard')}
+            onClick={handleGetStarted}
             sx={{ 
               bgcolor: 'white', 
               color: 'primary.main',
@@ -257,39 +270,7 @@ const UltraHomePage: React.FC = () => {
     </SafeWrapper>
   ), [handleNavigation]);
 
-  // Navigation Test Section (for development)
-  const NavigationTestSection = useMemo(() => (
-    <SafeWrapper name="NavigationTest">
-      <Alert severity="info" sx={{ mb: 4 }}>
-        <Typography variant="h6" gutterBottom>
-          🧪 Navigation Test Center
-        </Typography>
-        <Typography variant="body2" gutterBottom>
-          Test all application features to ensure everything works perfectly:
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 2 }}>
-          <Button size="small" onClick={() => handleNavigation('/dashboard')}>
-            Dashboard
-          </Button>
-          <Button size="small" onClick={() => handleNavigation('/builder')}>
-            Portfolio Builder
-          </Button>
-          <Button size="small" onClick={() => handleNavigation('/professional-builder')}>
-            Professional Builder
-          </Button>
-          <Button size="small" onClick={() => handleNavigation('/resume')}>
-            Resume Generator
-          </Button>
-          <Button size="small" onClick={() => handleNavigation('/settings')}>
-            Settings
-          </Button>
-          <Button size="small" onClick={() => handleNavigation('/preview')}>
-            Preview
-          </Button>
-        </Box>
-      </Alert>
-    </SafeWrapper>
-  ), [handleNavigation]);
+
 
   // Main render
   return (
@@ -298,13 +279,14 @@ const UltraHomePage: React.FC = () => {
         {/* Hero Section */}
         {HeroSection}
 
-        {/* Getting Started Section */}
-        <Box sx={{ my: 6 }}>
-          <GettingStarted />
-        </Box>
+        {/* Getting Started Section - Only show for authenticated users */}
+        {isAuthenticated && (
+          <Box sx={{ my: 6 }}>
+            <GettingStarted />
+          </Box>
+        )}
 
-        {/* Navigation Test (remove in production) */}
-        {NavigationTestSection}
+
 
         {/* Features */}
         {FeaturesSection}

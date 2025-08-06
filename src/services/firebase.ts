@@ -28,21 +28,41 @@ let app;
 let auth;
 let db;
 let googleProvider;
+let firebaseEnabled = false;
 
-try {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-  googleProvider = new GoogleAuthProvider();
-  
-  // Request additional scopes for profile information
-  googleProvider.addScope('profile');
-  googleProvider.addScope('email');
-  googleProvider.setCustomParameters({
-    prompt: 'select_account'
-  });
-} catch (error) {
-  console.warn('Firebase not configured properly, using demo mode');
+// Check if we have valid Firebase configuration
+const hasValidFirebaseConfig = 
+  firebaseConfig.apiKey && 
+  firebaseConfig.apiKey !== "demo-api-key" &&
+  firebaseConfig.authDomain && 
+  firebaseConfig.authDomain !== "demo-auth-domain.firebaseapp.com" &&
+  firebaseConfig.projectId && 
+  firebaseConfig.projectId !== "demo-project-id";
+
+if (hasValidFirebaseConfig) {
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    googleProvider = new GoogleAuthProvider();
+    
+    // Request additional scopes for profile information
+    googleProvider.addScope('profile');
+    googleProvider.addScope('email');
+    googleProvider.setCustomParameters({
+      prompt: 'select_account'
+    });
+    
+    firebaseEnabled = true;
+    console.log('Firebase initialized successfully');
+  } catch (error) {
+    console.warn('Firebase initialization failed:', error.message);
+    console.warn('Falling back to demo mode');
+    firebaseEnabled = false;
+  }
+} else {
+  console.warn('Firebase credentials not configured, using demo mode');
+  console.log('To enable real authentication, set up Firebase credentials in .env file');
 }
 // This allows the app to build without Firebase setup
 export class AuthService {
@@ -52,7 +72,7 @@ export class AuthService {
 
   async initialize() {
     try {
-      if (auth) {
+      if (firebaseEnabled && auth) {
         // Real Firebase initialization
         this.isInitialized = true;
         
@@ -77,16 +97,17 @@ export class AuthService {
           this.authStateListeners.forEach(listener => listener(this.currentUser));
         });
         
+        console.log('Firebase authentication initialized');
         return true;
       } else {
-        // Fallback to localStorage for demo
-        console.warn('Firebase not configured, using local storage only');
+        // Demo mode - use localStorage
         this.isInitialized = true;
         this.currentUser = this.loadUserFromStorage();
+        console.log('Demo mode initialized');
         return true;
       }
     } catch (error) {
-      console.warn('Firebase initialization failed, using local storage only');
+      console.warn('Authentication initialization failed, using demo mode:', error);
       this.isInitialized = true;
       this.currentUser = this.loadUserFromStorage();
       return true;
@@ -112,7 +133,7 @@ export class AuthService {
 
   async signInWithEmail(email: string, password: string) {
     try {
-      if (auth) {
+      if (firebaseEnabled && auth) {
         // Real Firebase email authentication
         const result = await signInWithEmailAndPassword(auth, email, password);
         const firebaseUser = result.user;
@@ -165,7 +186,7 @@ export class AuthService {
 
   async signUpWithEmail(email: string, password: string, displayName?: string) {
     try {
-      if (auth) {
+      if (firebaseEnabled && auth) {
         // Real Firebase email registration
         const result = await createUserWithEmailAndPassword(auth, email, password);
         const firebaseUser = result.user;
@@ -221,7 +242,7 @@ export class AuthService {
 
   async signInWithGoogle() {
     try {
-      if (auth && googleProvider) {
+      if (firebaseEnabled && auth && googleProvider) {
         // Real Firebase Google authentication
         const result = await signInWithPopup(auth, googleProvider);
         const firebaseUser = result.user;
@@ -284,7 +305,7 @@ export class AuthService {
 
   async signOut() {
     try {
-      if (auth) {
+      if (firebaseEnabled && auth) {
         await firebaseSignOut(auth);
       }
       this.currentUser = null;

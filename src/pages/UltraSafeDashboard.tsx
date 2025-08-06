@@ -30,6 +30,8 @@ import WorkingGitHubIntegration from '../components/integrations/WorkingGitHubIn
 import WorkingLinkedInIntegration from '../components/integrations/WorkingLinkedInIntegration';
 import WorkingAIAssistantIntegration from '../components/integrations/WorkingAIAssistantIntegration';
 import useConnectionStatus from '../hooks/useConnectionStatus';
+import { useAuth } from '../contexts/AuthContext';
+import AuthDialog from '../components/auth/AuthDialog';
 
 /**
  * Ultra-Safe Dashboard with maximum error protection
@@ -37,6 +39,7 @@ import useConnectionStatus from '../hooks/useConnectionStatus';
  */
 const UltraSafeDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { user: authUser, isAuthenticated } = useAuth();
   
   // Safe state with proper initialization
   const [loading, setLoading] = useState<boolean>(true);
@@ -46,6 +49,7 @@ const UltraSafeDashboard: React.FC = () => {
     linkedin: false,
     ai: false,
   });
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   // Connection status from localStorage
   const { connectionStatus, loading: connectionsLoading, refreshConnections } = useConnectionStatus();
@@ -118,16 +122,23 @@ const UltraSafeDashboard: React.FC = () => {
         setLoading(true);
         setError(null);
         
+        // Check if user is authenticated
+        if (!isAuthenticated) {
+          setAuthDialogOpen(true);
+          setLoading(false);
+          return;
+        }
+        
         // Simulate data loading with safe operations
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         if (isMounted) {
-          // Safe state updates
+          // Safe state updates with real user data
           setUserData({
-            name: 'Demo User',
-            username: 'demo-user',
-            avatar: null,
-            email: 'demo@example.com',
+            name: authUser?.displayName || authUser?.email?.split('@')[0] || 'Portfolio User',
+            username: authUser?.email?.split('@')[0] || 'user',
+            avatar: authUser?.photoURL || null,
+            email: authUser?.email || 'user@example.com',
           });
           
           setStats({
@@ -179,7 +190,7 @@ const UltraSafeDashboard: React.FC = () => {
       <Card sx={{ mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h5" gutterBottom>
-            Welcome back{userData.name ? `, ${userData.name}` : ''}! 👋
+            Welcome back{userData.name ? `, ${userData.name}` : ''}!
           </Typography>
           <Typography variant="body1" sx={{ opacity: 0.9 }}>
             Your professional portfolio generator is ready to help you create stunning portfolios.
@@ -501,6 +512,17 @@ const UltraSafeDashboard: React.FC = () => {
         {IntegrationsSection}
         {SettingsSection}
       </Container>
+      
+      {/* Authentication Dialog */}
+      <AuthDialog
+        open={authDialogOpen}
+        onClose={() => setAuthDialogOpen(false)}
+        onSuccess={() => {
+          setAuthDialogOpen(false);
+          // Reload data after successful authentication
+          window.location.reload();
+        }}
+      />
       
       {/* Working Integration Dialogs */}
       <WorkingGitHubIntegration

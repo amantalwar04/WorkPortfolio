@@ -28,6 +28,7 @@ import {
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { safeNavigate } from '../utils/navigation';
+import { useAuth } from '../contexts/AuthContext';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -35,6 +36,15 @@ const MotionCard = motion(Card);
 const HomePage: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/dashboard'); // Dashboard will handle showing auth dialog
+    }
+  };
   
   const features = [
     {
@@ -479,7 +489,7 @@ const HomePage: React.FC = () => {
             <Button
               variant="contained"
               size="large"
-              onClick={() => navigate('/dashboard')}
+              onClick={handleGetStarted}
               sx={{
                 bgcolor: 'white',
                 color: 'primary.main',

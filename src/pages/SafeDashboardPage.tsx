@@ -141,7 +141,7 @@ const SafeDashboardPage: React.FC = () => {
         <SafeWrapper name="WelcomeSection">
           <Paper sx={{ p: 4, mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
             <Typography variant="h5" gutterBottom>
-              Welcome back{user?.name ? `, ${user.name}` : ''}! 👋
+              Welcome back{user?.name ? `, ${user.name}` : ''}!
             </Typography>
             <Typography variant="body1" sx={{ opacity: 0.9 }}>
               Ready to build your professional portfolio and create stunning resumes?
